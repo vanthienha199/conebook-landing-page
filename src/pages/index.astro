@@ -58,7 +58,7 @@ const faqs = [
         <p class="eyebrow">For pottery studios and ceramic classrooms</p>
         <h1>Every firing, logged before the kiln <em>cools</em>.</h1>
         <p class="lede">Conebook keeps your firing curves, glaze recipes and class bookings in one place, so the next load goes better than the last one.</p>
-        <form class="quick" name="waitlist-quick" method="POST" action={`${base}thanks/`} data-netlify="true" netlify-honeypot="company" data-js-form data-endpoint={formEndpoint}>
+        <form class="quick" name="waitlist-quick" method="POST" action={`${base}thanks/`} data-netlify="true" netlify-honeypot="company" data-js-form data-endpoint={formEndpoint} novalidate>
           <input type="hidden" name="form-name" value="waitlist-quick" />
           <p class="sr-only"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
           <label class="sr-only" for="quick-email">Email</label>
