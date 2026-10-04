@@ -1,0 +1,419 @@
+---
+import Base from "../layouts/Base.astro";
+import FiringCard from "../components/FiringCard.astro";
+const base = import.meta.env.BASE_URL;
+// Netlify Forms stores submissions on the Netlify deploy; other static hosts can point at any form backend.
+const formEndpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || "";
+
+const firings = [
+  { name: "Glaze, cone 6", kiln: "Kiln 1", date: "Oct 3", peak: "2,232°F", pts: [72, 300, 900, 1500, 1960, 2185, 2232, 2232, 1700] },
+  { name: "Bisque, cone 04", kiln: "Kiln 2", date: "Oct 1", peak: "1,945°F", pts: [72, 200, 200, 600, 1000, 1500, 1945, 1945, 1300] },
+  { name: "Reduction, cone 10", kiln: "Gas kiln", date: "Sep 27", peak: "2,345°F", pts: [72, 400, 1100, 1650, 1880, 2200, 2345, 2340, 1600] },
+];
+const spark = (pts) => {
+  const max = 2400, w = 120, h = 34;
+  return pts.map((t, i) => `${i ? "L" : "M"}${((i / (pts.length - 1)) * w).toFixed(1)} ${(h - (t / max) * h).toFixed(1)}`).join(" ");
+};
+const glazes = [
+  { name: "Celadon 3", cone: "Cone 6", color: "var(--celadon)", ink: "#1E2A23" },
+  { name: "Tenmoku Brown", cone: "Cone 10", color: "var(--tenmoku)", ink: "#F3ECE2" },
+  { name: "Shino Carbon Trap", cone: "Cone 10", color: "var(--shino)", ink: "#3B2A1C" },
+  { name: "Floating Blue", cone: "Cone 6", color: "var(--cobalt)", ink: "#F3ECE2" },
+  { name: "Oatmeal Satin", cone: "Cone 6", color: "#D8C8AE", ink: "#3B2A1C" },
+  { name: "Clear Liner 2", cone: "Cone 6", color: "#EEF0EA", ink: "#3B2A1C" },
+];
+const week = [
+  { day: "Mon", items: [{ t: "Wheel I", k: "class" }] },
+  { day: "Tue", items: [{ t: "Bisque K2", k: "fire" }, { t: "Hand-building", k: "class" }] },
+  { day: "Wed", items: [{ t: "Open studio", k: "open" }] },
+  { day: "Thu", items: [{ t: "Glaze K1", k: "fire" }, { t: "Wheel II", k: "class" }] },
+  { day: "Fri", items: [{ t: "Unload K1", k: "open" }] },
+];
+const faqs = [
+  { q: "Does Conebook talk to my kiln controller?", a: "Conebook imports logs from controllers that export CSV, and you can type readings in from your phone at the kiln. A live connection to a few controller models is on the roadmap for this demo product." },
+  { q: "Can students see the glaze log?", a: "Yes. You choose which glazes are public to members, and members can add test tile photos that you approve before they appear." },
+  { q: "What happens to my data if I leave?", a: "Every firing, glaze and booking exports to CSV at any time, on every plan, including the free one." },
+  { q: "Is this a real product?", a: "No. Conebook is a fictional product, and this page was built as a website demo. The waitlist form works, and entries are stored only to show the form handling." },
+];
+---
+<Base title="Conebook, the studio logbook for potters (demo site)" description="Firing logs, glaze notes and class bookings in one place for pottery studios. A fictional product built as a landing page demo.">
+  <div class="demo-bar">Demo site. Conebook is a fictional product made to show landing page work.</div>
+
+  <header class="nav wrap">
+    <a class="logo" href={base} aria-label="Conebook home">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#231B16"/><path d="M14 46 L26 40 L34 22 L50 18" fill="none" stroke="#D2693F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="18" r="4.5" fill="#F3ECE2"/></svg>
+      <span>Conebook</span>
+    </a>
+    <nav aria-label="Main">
+      <a class="link" href="#features">Features</a>
+      <a class="link" href="#pricing">Pricing</a>
+      <a class="link" href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-ghost nav-cta" href="#waitlist">Join the waitlist</a>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">For pottery studios and ceramic classrooms</p>
+        <h1>Every firing, logged before the kiln <em>cools</em>.</h1>
+        <p class="lede">Conebook keeps your firing curves, glaze recipes and class bookings in one place, so the next load goes better than the last one.</p>
+        <form class="quick" name="waitlist-quick" method="POST" action={`${base}thanks/`} data-netlify="true" netlify-honeypot="company" data-js-form data-endpoint={formEndpoint}>
+          <input type="hidden" name="form-name" value="waitlist-quick" />
+          <p class="sr-only"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+          <label class="sr-only" for="quick-email">Email</label>
+          <input id="quick-email" type="email" name="email" placeholder="you@yourstudio.com" required autocomplete="email" />
+          <button class="btn btn-primary" type="submit">Get early access</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+        <p class="fine">Free for studios with one kiln. No card needed.</p>
+      </div>
+      <div class="hero-art">
+        <FiringCard />
+        <div class="tile-float" aria-hidden="true">
+          <i style="background: var(--celadon)"></i>
+          <div><b>Celadon 3</b><span>Test tile approved · 2 min ago</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="built wrap" aria-label="Who it is for">
+      <span>Made for</span>
+      <ul>
+        <li>Community studios</li>
+        <li>Production potters</li>
+        <li>School ceramics rooms</li>
+        <li>Shared kiln co-ops</li>
+      </ul>
+    </section>
+
+    <section id="features" class="features wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">What it does</p>
+        <h2>The studio notebook, without the coffee rings.</h2>
+      </div>
+      <div class="bento">
+        <article class="cell big reveal">
+          <h3>Every firing on one shelf</h3>
+          <p>Compare tonight's curve with the last good one, and see who loaded what.</p>
+          <ul class="firings">
+            {firings.map((f) => (
+              <li>
+                <div><b>{f.name}</b><span>{f.kiln} · {f.date}</span></div>
+                <svg viewBox="0 0 120 34" aria-hidden="true"><path d={spark(f.pts)} /></svg>
+                <span class="peak">{f.peak}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+        <article class="cell glaze reveal">
+          <h3>A glaze log you can search</h3>
+          <p>Recipes, cones and test tiles, with notes from whoever mixed the bucket.</p>
+          <ul class="swatches">
+            {glazes.map((g) => (
+              <li style={`background:${g.color};color:${g.ink}`}><b>{g.name}</b><span>{g.cone}</span></li>
+            ))}
+          </ul>
+        </article>
+        <article class="cell dark reveal">
+          <h3>Classes and kiln time, booked</h3>
+          <p>Members see open studio hours and which kiln is free, without a group chat.</p>
+          <div class="week">
+            {week.map((d) => (
+              <div class="day"><span>{d.day}</span>{d.items.map((it) => <em class={it.k}>{it.t}</em>)}</div>
+            ))}
+          </div>
+        </article>
+        <article class="cell small reveal">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="4" width="22" height="32" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 26l4 4 7-9" fill="none" stroke="#B5532F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3>Works at the kiln, offline</h3>
+          <p>Log a cone reading with dusty hands and spotty Wi-Fi. It syncs when you are back.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="steps wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">How it works</p>
+        <h2>Set up in an afternoon.</h2>
+      </div>
+      <ol>
+        <li class="reveal"><span>1</span><h3>Add your kilns</h3><p>Name them, add the controller model and the cones you fire to.</p></li>
+        <li class="reveal"><span>2</span><h3>Bring your glazes</h3><p>Paste recipes or snap the binder pages. Tiles and notes attach to each one.</p></li>
+        <li class="reveal"><span>3</span><h3>Invite the studio</h3><p>Members book shelf space and classes, and every firing lands in the log.</p></li>
+      </ol>
+    </section>
+
+    <section id="pricing" class="pricing wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Pricing</p>
+        <h2>Priced per studio, not per potter.</h2>
+        <div class="billing" role="group" aria-label="Billing period">
+          <button type="button" aria-pressed="true" data-period="month">Monthly</button>
+          <button type="button" aria-pressed="false" data-period="year">Yearly <small>2 months free</small></button>
+        </div>
+      </div>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3>Solo</h3>
+          <p class="price"><b>$0</b><span>forever</span></p>
+          <ul><li>One kiln</li><li>Unlimited firings and glazes</li><li>CSV export</li></ul>
+          <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
+        </article>
+        <article class="plan featured reveal">
+          <p class="tag">Most studios</p>
+          <h3>Studio</h3>
+          <p class="price"><b data-month="$14" data-year="$140">$14</b><span data-month="per month" data-year="per year">per month</span></p>
+          <ul><li>Up to 6 kilns</li><li>Member bookings and classes</li><li>Shared glaze log with approvals</li><li>Controller CSV import</li></ul>
+          <a class="btn btn-primary" href="#waitlist">Get early access</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="faq" class="faq wrap">
+      <div class="section-head reveal">
+        <p class="eyebrow">Questions</p>
+        <h2>Things potters ask first.</h2>
+      </div>
+      <div class="qa">
+        {faqs.map((f, i) => (
+          <details open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section id="waitlist" class="cta">
+      <div class="wrap cta-inner">
+        <div>
+          <p class="eyebrow">Early access</p>
+          <h2>Get your studio on the list.</h2>
+          <p class="cta-lede">We are opening Conebook to a few studios at a time. Tell us a little about yours.</p>
+        </div>
+        <form class="full" name="waitlist" method="POST" action={`${base}thanks/`} data-netlify="true" netlify-honeypot="company" data-js-form data-endpoint={formEndpoint} novalidate>
+          <input type="hidden" name="form-name" value="waitlist" />
+          <p class="sr-only"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="row">
+            <label>Your name<input name="name" required autocomplete="name" /></label>
+            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+          </div>
+          <div class="row">
+            <label>Studio type
+              <select name="studio_type" required>
+                <option value="">Choose one</option>
+                <option>Community studio</option>
+                <option>Production pottery</option>
+                <option>School or university</option>
+                <option>Home studio</option>
+              </select>
+            </label>
+            <label>Kilns<input type="number" name="kilns" min="1" max="40" value="1" inputmode="numeric" /></label>
+          </div>
+          <label><span class="lbl">Anything we should know? <span>(optional)</span></span><textarea name="message" rows="3"></textarea></label>
+          <button class="btn btn-primary" type="submit">Join the waitlist</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <span>Conebook is a fictional product. Website demo by Ha Le, 2026.</span>
+    <a class="link" href="#top" onclick="window.scrollTo({top:0});return false;">Back to top</a>
+  </footer>
+
+  <script>
+    // billing toggle
+    const toggles = document.querySelectorAll(".billing button");
+    toggles.forEach((b) => b.addEventListener("click", () => {
+      toggles.forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      const p = b.dataset.period;
+      document.querySelectorAll("[data-month]").forEach((el) => { el.textContent = el.dataset[p] ?? el.textContent; });
+    }));
+
+    // forms: validate inline, post to Netlify Forms with fetch, fall back to a normal POST
+    const encode = (form) => new URLSearchParams(new FormData(form)).toString();
+    document.querySelectorAll("form[data-js-form]").forEach((form) => {
+      const msg = form.querySelector(".form-msg");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.className = "form-msg";
+        const bad = [...form.querySelectorAll("input, select, textarea")].find((el) => !el.checkValidity());
+        if (bad) {
+          msg.textContent = bad.type === "email" ? "Please enter a valid email address." : "Please fill in the highlighted field.";
+          msg.classList.add("err");
+          bad.setAttribute("aria-invalid", "true");
+          bad.focus();
+          return;
+        }
+        form.querySelectorAll("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
+        const btn = form.querySelector("button[type=submit]");
+        btn.disabled = true;
+        const label = btn.textContent;
+        btn.textContent = "Sending...";
+        const onNetlify = location.hostname.endsWith("netlify.app");
+        const endpoint = form.dataset.endpoint || (onNetlify ? "/" : "");
+        if (!endpoint) {
+          msg.textContent = "Looks good. This GitHub Pages copy does not store entries; the Netlify deploy saves them to Netlify Forms.";
+          msg.classList.add("ok");
+          btn.disabled = false;
+          btn.textContent = label;
+          return;
+        }
+        try {
+          const r = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: encode(form) });
+          if (!r.ok) throw new Error(String(r.status));
+          form.reset();
+          msg.textContent = "You are on the list. We will email you when a spot opens.";
+          msg.classList.add("ok");
+        } catch (err) {
+          msg.textContent = "That did not go through. Please try again in a moment.";
+          msg.classList.add("err");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = label;
+        }
+      });
+    });
+  </script>
+</Base>
+
+<style>
+  .demo-bar { background: var(--night); color: var(--night-muted); font-size: 13px; text-align: center; padding: 8px 16px; }
+  .nav { display: flex; align-items: center; gap: 32px; padding: 22px 0; }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--serif); font-weight: 600; font-size: 22px; letter-spacing: -0.02em; }
+  .nav nav { display: flex; gap: 28px; margin-left: auto; font-size: 16px; color: var(--ink-2); }
+  .nav-cta { padding: 12px 18px; font-size: 15px; }
+
+  .hero { display: grid; grid-template-columns: 1.02fr 1fr; gap: 64px; align-items: center; padding: 56px 0 72px; }
+  .hero h1 { font-size: clamp(48px, 6.4vw, 88px); }
+  .hero h1 em { font-style: italic; font-variation-settings: "SOFT" 100, "WONK" 1; color: var(--clay); }
+  .lede { font-size: 20px; color: var(--ink-2); max-width: 34ch; margin-top: 24px; }
+  .quick { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; max-width: 520px; }
+  .quick input { flex: 1 1 230px; font: 16px var(--sans); padding: 15px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); }
+  .quick input:focus { border-color: var(--clay); outline: none; }
+  .fine { font-size: 14px; color: var(--muted); margin-top: 12px; }
+  .form-msg { flex-basis: 100%; font-size: 15px; min-height: 1px; margin: 0; }
+  .form-msg.ok { color: #2F6B45; }
+  .form-msg.err { color: #A33B21; }
+  [aria-invalid="true"] { border-color: #A33B21 !important; }
+  .hero-art { position: relative; transform: rotate(1.2deg); }
+  .tile-float { position: absolute; left: -44px; bottom: -64px; display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow-md); transform: rotate(-3deg); }
+  .tile-float i { width: 38px; height: 38px; border-radius: 8px; }
+  .tile-float b { display: block; font-size: 15px; }
+  .tile-float span { font-size: 13px; color: var(--muted); }
+
+  .built { display: flex; align-items: center; gap: 24px; border-block: 1px solid var(--line); padding: 20px 0; color: var(--muted); font-size: 15px; }
+  .built ul { display: flex; flex-wrap: wrap; gap: 10px 28px; list-style: none; margin: 0; padding: 0; color: var(--ink-2); font-family: var(--serif); font-size: 19px; }
+
+  section { scroll-margin-top: 24px; }
+  .section-head { max-width: 640px; margin-bottom: 40px; }
+  .section-head h2 { font-size: clamp(36px, 4.4vw, 56px); margin-top: 12px; }
+
+  .features { padding: 112px 0 48px; }
+  .bento { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: auto auto; gap: 20px; }
+  .cell { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 32px; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
+  .cell:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .cell h3 { font-size: 28px; }
+  .cell > p { color: var(--muted); margin-top: 10px; max-width: 42ch; }
+  .firings { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 10px; }
+  .firings li { display: grid; grid-template-columns: 1fr 120px 76px; align-items: center; gap: 16px; background: var(--paper); border-radius: 10px; padding: 12px 16px; }
+  .firings b { display: block; font-size: 16px; }
+  .firings span { font-size: 13px; color: var(--muted); }
+  .firings svg path { fill: none; stroke: var(--clay); stroke-width: 2; }
+  .firings .peak { font-size: 15px; font-weight: 600; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+  .swatches { list-style: none; padding: 0; margin: 24px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .swatches li { border-radius: 10px; padding: 12px; min-height: 84px; display: flex; flex-direction: column; justify-content: flex-end; box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+  .swatches b { font-size: 13px; line-height: 1.25; }
+  .swatches span { font-size: 12px; opacity: .8; }
+  .cell.dark { background: var(--night); border-color: var(--night); color: var(--night-ink); }
+  .cell.dark > p { color: var(--night-muted); }
+  .week { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 24px; }
+  .day { display: flex; flex-direction: column; gap: 6px; }
+  .day span { font-size: 13px; color: var(--night-muted); margin-bottom: 2px; }
+  .day em { font-style: normal; font-size: 12.5px; line-height: 1.3; padding: 8px; border-radius: 8px; background: var(--night-2); border: 1px solid var(--night-line); }
+  .day em.fire { background: #4A2618; border-color: #6A3520; color: #F6C9AF; }
+  .day em.open { color: var(--night-muted); }
+  .cell.small { display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; }
+  .cell.small svg { margin-bottom: auto; color: var(--ink); }
+
+  .steps { padding: 96px 0 48px; }
+  .steps ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: s; }
+  .steps li span { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--clay); font-variation-settings: "SOFT" 100; }
+  .steps li h3 { font-size: 26px; margin-top: 16px; }
+  .steps li p { color: var(--muted); margin-top: 8px; }
+
+  .pricing { padding: 96px 0 48px; }
+  .billing { display: inline-flex; gap: 4px; margin-top: 24px; background: var(--paper-2); padding: 4px; border-radius: 999px; }
+  .billing button { border: 0; background: transparent; font: 600 15px var(--sans); color: var(--ink-2); padding: 10px 18px; border-radius: 999px; cursor: pointer; }
+  .billing button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow-sm); }
+  .billing small { color: var(--clay); font-weight: 600; margin-left: 4px; }
+  .plans { display: grid; grid-template-columns: 0.85fr 1fr; gap: 20px; max-width: 900px; }
+  .plan { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 32px; display: flex; flex-direction: column; }
+  .plan h3 { font-size: 28px; }
+  .price { display: flex; align-items: baseline; gap: 8px; margin: 16px 0 20px; }
+  .price b { font-family: var(--serif); font-size: 56px; font-weight: 600; letter-spacing: -0.03em; }
+  .price span { color: var(--muted); }
+  .plan ul { margin: 0 0 28px; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .plan li { padding-left: 26px; position: relative; }
+  .plan li::before { content: ""; position: absolute; left: 0; top: 10px; width: 14px; height: 8px; border-left: 2.5px solid var(--clay); border-bottom: 2.5px solid var(--clay); transform: rotate(-45deg); }
+  .plan .btn { margin-top: auto; align-self: flex-start; }
+  .plan.featured { background: var(--night); color: var(--night-ink); border-color: var(--night); transform: translateY(-12px); box-shadow: var(--shadow-md); }
+  .plan.featured .price span { color: var(--night-muted); }
+  .tag { position: absolute; top: -13px; right: 24px; background: var(--clay); color: var(--clay-ink); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; }
+
+  .faq { padding: 96px 0 96px; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: start; }
+  .qa { display: grid; }
+  details { border-bottom: 1px solid var(--line); padding: 20px 0; }
+  details:first-child { border-top: 1px solid var(--line); }
+  summary { cursor: pointer; list-style: none; font-family: var(--serif); font-size: 22px; font-weight: 600; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-family: var(--sans); color: var(--clay); font-weight: 500; transition: transform .2s var(--ease); }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { color: var(--ink-2); margin-top: 10px; max-width: 60ch; }
+
+  .cta { background: var(--night); color: var(--night-ink); padding: 112px 0; }
+  .cta-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: start; }
+  .cta h2 { font-size: clamp(40px, 5vw, 64px); margin-top: 12px; }
+  .cta-lede { color: var(--night-muted); margin-top: 20px; max-width: 36ch; }
+  .full { display: grid; gap: 16px; background: var(--night-2); border: 1px solid var(--night-line); border-radius: 18px; padding: 32px; }
+  .full .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .full label { display: grid; gap: 8px; font-size: 15px; font-weight: 500; color: var(--night-ink); }
+  .full label span { color: var(--night-muted); font-weight: 400; }
+  .full input, .full select, .full textarea { font: 16px var(--sans); color: var(--night-ink); background: var(--night); border: 1.5px solid var(--night-line); border-radius: 10px; padding: 13px 14px; }
+  .full input:focus, .full select:focus, .full textarea:focus { border-color: var(--clay); outline: none; }
+  .full .btn { justify-self: start; }
+  .cta .form-msg.ok { color: #9FD3AE; }
+  .cta .form-msg.err { color: #F2A48A; }
+
+  .foot { display: flex; justify-content: space-between; gap: 16px; padding: 28px 0 40px; font-size: 14px; color: var(--muted); }
+
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 32px; }
+    .hero-art { transform: none; }
+    .tile-float { left: 12px; }
+    .bento, .cta-inner, .faq { grid-template-columns: 1fr; }
+    .plans { grid-template-columns: 1fr; }
+    .plan.featured { transform: none; }
+  }
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    .nav { gap: 16px; }
+    .nav nav { display: none; }
+    .nav-cta { margin-left: auto; padding: 10px 14px; font-size: 14px; }
+    .hero h1 { font-size: 44px; }
+    .lede { font-size: 18px; }
+    .built { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .cell { padding: 24px; }
+    .firings li { grid-template-columns: 1fr 64px; }
+    .firings svg { display: none; }
+    .swatches { grid-template-columns: repeat(2, 1fr); }
+    .week { grid-template-columns: repeat(3, 1fr); }
+    .steps ol { grid-template-columns: 1fr; gap: 28px; }
+    .full .row { grid-template-columns: 1fr; }
+    .full { padding: 20px; }
+    .foot { flex-direction: column; }
+  }
+</style>

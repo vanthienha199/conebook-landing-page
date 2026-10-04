@@ -1,0 +1,94 @@
+---
+// Cone 04 bisque schedule: candle, water smoke, then ramp to 1,945°F with a short hold.
+const W = 520, H = 230, PAD = { l: 44, r: 14, t: 16, b: 30 };
+const HOURS = 10, TMAX = 2100;
+const plan = [[0, 72], [1.5, 200], [3, 200], [6, 1000], [9.5, 1945], [9.7, 1945]];
+const x = (h) => PAD.l + (h / HOURS) * (W - PAD.l - PAD.r);
+const y = (t) => H - PAD.b - (t / TMAX) * (H - PAD.t - PAD.b);
+const at = (h) => {
+  for (let i = 1; i < plan.length; i++) {
+    const [h0, t0] = plan[i - 1], [h1, t1] = plan[i];
+    if (h <= h1) return t0 + ((t1 - t0) * (h - h0)) / (h1 - h0 || 1);
+  }
+  return plan[plan.length - 1][1];
+};
+const target = plan.map(([h, t], i) => `${i ? "L" : "M"}${x(h).toFixed(1)} ${y(t).toFixed(1)}`).join(" ");
+// "actual" trace: the plan plus the small lag and wobble a real kiln shows, up to now
+const NOW = 6.42;
+const pts = [];
+for (let h = 0; h <= NOW; h += 0.05) {
+  const lag = h > 3 ? 14 + 6 * Math.sin(h * 3.1) : 3 * Math.sin(h * 5);
+  pts.push([h, Math.max(68, at(h) - lag)]);
+}
+const actual = pts.map(([h, t], i) => `${i ? "L" : "M"}${x(h).toFixed(1)} ${y(t).toFixed(1)}`).join(" ");
+const nowT = Math.round(pts[pts.length - 1][1]);
+const yTicks = [0, 500, 1000, 1500, 2000];
+const xTicks = [0, 2, 4, 6, 8, 10];
+---
+<figure class="firing" aria-label="Conebook firing screen for a bisque firing, sample data">
+  <header>
+    <div>
+      <p class="label">Kiln 2 · Bisque, cone 04</p>
+      <p class="title">Tuesday spring class load</p>
+    </div>
+    <span class="live"><i></i>Firing</span>
+  </header>
+  <div class="readout">
+    <div><span>Now</span><b>{nowT.toLocaleString("en-US")}°F</b></div>
+    <div><span>Segment</span><b>3 of 4</b></div>
+    <div><span>Rate</span><b>267°F/h</b></div>
+    <div><span>Done by</span><b>9:42 PM</b></div>
+  </div>
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label="Target and measured temperature over ten hours">
+    {yTicks.map((t) => (
+      <g>
+        <line x1={PAD.l} x2={W - PAD.r} y1={y(t)} y2={y(t)} class="grid" />
+        <text x={PAD.l - 8} y={y(t) + 4} class="tick" text-anchor="end">{t === 0 ? "0" : `${t / 1000}k`}</text>
+      </g>
+    ))}
+    {xTicks.map((h) => <text x={x(h)} y={H - 8} class="tick" text-anchor="middle">{h}h</text>)}
+    <path d={target} class="target" />
+    <path d={actual} class="actual" pathLength="1" />
+    <line x1={x(NOW)} x2={x(NOW)} y1={PAD.t} y2={H - PAD.b} class="now" />
+    <circle cx={x(NOW)} cy={y(nowT)} r="5.5" class="dot" />
+  </svg>
+  <footer>
+    <span><i class="swatch target-sw"></i>Program</span>
+    <span><i class="swatch actual-sw"></i>Thermocouple</span>
+    <span class="note">Logged every 30 s</span>
+  </footer>
+</figure>
+
+<style>
+  .firing { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px 22px 16px; box-shadow: var(--shadow-md); }
+  header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+  .label { font-size: 13px; color: var(--muted); letter-spacing: .02em; }
+  .title { font-family: var(--serif); font-size: 21px; font-weight: 600; letter-spacing: -0.01em; margin-top: 2px; }
+  .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--clay); background: #F6E2D6; padding: 6px 12px; border-radius: 999px; }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--clay); animation: pulse 1.8s var(--ease) infinite; }
+  @keyframes pulse { 50% { opacity: .35; } }
+  .readout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0 10px; }
+  .readout div { background: var(--paper); border-radius: 10px; padding: 10px 12px; }
+  .readout span { display: block; font-size: 12px; color: var(--muted); }
+  .readout b { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  svg { width: 100%; height: auto; }
+  .grid { stroke: var(--line); stroke-width: 1; }
+  .tick { font: 500 11px var(--sans); fill: var(--muted); }
+  .target { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; }
+  .actual { fill: none; stroke: var(--clay); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s var(--ease) .25s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .now { stroke: var(--clay); stroke-width: 1; stroke-dasharray: 2 4; opacity: .6; }
+  .dot { fill: var(--clay); stroke: var(--card); stroke-width: 3; }
+  footer { display: flex; gap: 18px; align-items: center; font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .swatch { display: inline-block; width: 16px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
+  .target-sw { background: var(--muted); }
+  .actual-sw { background: var(--clay); }
+  .note { margin-left: auto; }
+  @media (prefers-reduced-motion: reduce) { .actual { stroke-dashoffset: 0; } }
+  @media (max-width: 560px) {
+    .firing { padding: 16px 14px 12px; }
+    .readout { grid-template-columns: repeat(2, 1fr); }
+    .note { display: none; }
+  }
+</style>
