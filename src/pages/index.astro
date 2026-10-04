@@ -62,7 +62,7 @@ const faqs = [
           <input type="hidden" name="form-name" value="waitlist-quick" />
           <p class="sr-only"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
           <label class="sr-only" for="quick-email">Email</label>
-          <input id="quick-email" type="email" name="email" placeholder="you@yourstudio.com" required autocomplete="email" />
+          <input id="quick-email" type="email" name="email" placeholder="you@yourstudio.com" required autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" />
           <button class="btn btn-primary" type="submit">Get early access</button>
           <p class="form-msg" role="status" aria-live="polite"></p>
         </form>
@@ -197,7 +197,7 @@ const faqs = [
           <p class="sr-only"><label>Leave empty <input name="company" tabindex="-1" autocomplete="off" /></label></p>
           <div class="row">
             <label>Your name<input name="name" required autocomplete="name" /></label>
-            <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+            <label>Email<input type="email" name="email" required autocomplete="email" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" /></label>
           </div>
           <div class="row">
             <label>Studio type
