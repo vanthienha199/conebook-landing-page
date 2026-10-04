@@ -12,6 +12,7 @@
   --muted: #6F6258;
   --line: #DDD1C2;
   --clay: #B5532F;
+  --clay-text: #96401F;
   --clay-ink: #FFF8F1;
   --night: #1F1915;
   --night-2: #2A221D;
@@ -44,7 +45,7 @@ a { color: inherit; }
 h1, h2, h3 { font-family: var(--serif); font-weight: 600; font-variation-settings: "SOFT" 50, "WONK" 0; letter-spacing: -0.025em; line-height: 1.04; margin: 0; }
 p { margin: 0; }
 .wrap { width: min(1180px, 100% - 48px); margin-inline: auto; }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--clay); }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--clay-text); }
 .btn {
   display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer; text-decoration: none;
   font: 600 16px/1 var(--sans); padding: 16px 22px; border-radius: 999px;
