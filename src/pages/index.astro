@@ -68,7 +68,7 @@ const faqs = [
       </div>
       <div class="hero-art">
         <figure class="kiln">
-          <img src={`${base}kiln-768.webp`} srcset={`${base}kiln-480.webp 480w, ${base}kiln-768.webp 768w`} sizes="(max-width: 960px) 100vw, 330px" width="768" height="960" alt="Burners firing inside a kiln during a bisque firing" fetchpriority="low" decoding="async" />
+          <img src={`${base}kiln-768.webp`} srcset={`${base}kiln-480.webp 480w, ${base}kiln-768.webp 768w`} sizes="(max-width: 960px) 100vw, 330px" width="768" height="960" alt="Burners firing inside a kiln during a bisque firing" loading="lazy" decoding="async" />
           <figcaption>Bisque firing. Photo by Encik Tekateki, CC0.</figcaption>
         </figure>
         <div class="card-slot"><FiringCard /></div>
@@ -389,9 +389,9 @@ const faqs = [
 
   @media (max-width: 960px) {
     .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 32px; }
-    .kiln { width: 100%; margin: 0; }
+    .kiln { width: 100%; margin: 24px 0 0; order: 2; }
     .kiln img { aspect-ratio: 16 / 10; object-position: 30% 66%; }
-    .card-slot { grid-area: auto; width: 100%; margin-top: -56px; padding: 0 12px; }
+    .card-slot { grid-area: auto; width: 100%; margin-top: 0; }
     .bento, .cta-inner, .faq { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
     .plan.featured { transform: none; }
