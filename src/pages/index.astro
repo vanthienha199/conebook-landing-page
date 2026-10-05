@@ -37,11 +37,9 @@ const faqs = [
 ];
 ---
 <Base title="Conebook, the studio logbook for potters (demo site)" description="Firing logs, glaze notes and class bookings in one place for pottery studios. A fictional product built as a landing page demo.">
-  <div class="demo-bar">Demo site. Conebook is a fictional product made to show landing page work.</div>
-
   <header class="nav wrap">
     <a class="logo" href={base} aria-label="Conebook home">
-      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#231B16"/><path d="M14 46 L26 40 L34 22 L50 18" fill="none" stroke="#D2693F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="18" r="4.5" fill="#F3ECE2"/></svg>
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#1E1C1A"/><path d="M14 46 L26 40 L34 22 L50 18" fill="none" stroke="#C0603A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="50" cy="18" r="4.5" fill="#E9E7E3"/></svg>
       <span>Conebook</span>
     </a>
     <nav aria-label="Main">
@@ -56,7 +54,7 @@ const faqs = [
     <section class="hero wrap">
       <div class="hero-copy">
         <p class="eyebrow">For pottery studios and ceramic classrooms</p>
-        <h1>Every firing, logged before the kiln <em>cools</em>.</h1>
+        <h1>Every firing, logged before the kiln cools.</h1>
         <p class="lede">Conebook keeps your firing curves, glaze recipes and class bookings in one place, so the next load goes better than the last one.</p>
         <form class="quick" name="waitlist-quick" method="POST" action={`${base}thanks/`} data-netlify="true" netlify-honeypot="company" data-js-form data-endpoint={formEndpoint} novalidate>
           <input type="hidden" name="form-name" value="waitlist-quick" />
@@ -69,11 +67,11 @@ const faqs = [
         <p class="fine">Free for studios with one kiln. No card needed.</p>
       </div>
       <div class="hero-art">
-        <FiringCard />
-        <div class="tile-float" aria-hidden="true">
-          <i style="background: var(--celadon)"></i>
-          <div><b>Celadon 3</b><span>Test tile approved · 2 min ago</span></div>
-        </div>
+        <figure class="kiln">
+          <img src={`${base}kiln-768.webp`} srcset={`${base}kiln-480.webp 480w, ${base}kiln-768.webp 768w`} sizes="(max-width: 960px) 100vw, 330px" width="768" height="960" alt="Burners firing inside a kiln during a bisque firing" fetchpriority="low" decoding="async" />
+          <figcaption>Bisque firing. Photo by Encik Tekateki, CC0.</figcaption>
+        </figure>
+        <div class="card-slot"><FiringCard /></div>
       </div>
     </section>
 
@@ -88,12 +86,12 @@ const faqs = [
     </section>
 
     <section id="features" class="features wrap">
-      <div class="section-head reveal">
+      <div class="section-head">
         <p class="eyebrow">What it does</p>
         <h2>The studio notebook, without the coffee rings.</h2>
       </div>
       <div class="bento">
-        <article class="cell big reveal">
+        <article class="cell big">
           <h3>Every firing on one shelf</h3>
           <p>Compare tonight's curve with the last good one, and see who loaded what.</p>
           <ul class="firings">
@@ -106,7 +104,7 @@ const faqs = [
             ))}
           </ul>
         </article>
-        <article class="cell glaze reveal">
+        <article class="cell glaze">
           <h3>A glaze log you can search</h3>
           <p>Recipes, cones and test tiles, with notes from whoever mixed the bucket.</p>
           <ul class="swatches">
@@ -115,7 +113,7 @@ const faqs = [
             ))}
           </ul>
         </article>
-        <article class="cell dark reveal">
+        <article class="cell dark">
           <h3>Classes and kiln time, booked</h3>
           <p>Members see open studio hours and which kiln is free, without a group chat.</p>
           <div class="week">
@@ -124,8 +122,8 @@ const faqs = [
             ))}
           </div>
         </article>
-        <article class="cell small reveal">
-          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="4" width="22" height="32" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 26l4 4 7-9" fill="none" stroke="#B5532F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <article class="cell small">
+          <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="9" y="4" width="22" height="32" rx="5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 26l4 4 7-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <h3>Works at the kiln, offline</h3>
           <p>Log a cone reading with dusty hands and spotty Wi-Fi. It syncs when you are back.</p>
         </article>
@@ -133,19 +131,19 @@ const faqs = [
     </section>
 
     <section class="steps wrap">
-      <div class="section-head reveal">
+      <div class="section-head">
         <p class="eyebrow">How it works</p>
         <h2>Set up in an afternoon.</h2>
       </div>
       <ol>
-        <li class="reveal"><span>1</span><h3>Add your kilns</h3><p>Name them, add the controller model and the cones you fire to.</p></li>
-        <li class="reveal"><span>2</span><h3>Bring your glazes</h3><p>Paste recipes or snap the binder pages. Tiles and notes attach to each one.</p></li>
-        <li class="reveal"><span>3</span><h3>Invite the studio</h3><p>Members book shelf space and classes, and every firing lands in the log.</p></li>
+        <li ><span>1</span><h3>Add your kilns</h3><p>Name them, add the controller model and the cones you fire to.</p></li>
+        <li ><span>2</span><h3>Bring your glazes</h3><p>Paste recipes or snap the binder pages. Tiles and notes attach to each one.</p></li>
+        <li ><span>3</span><h3>Invite the studio</h3><p>Members book shelf space and classes, and every firing lands in the log.</p></li>
       </ol>
     </section>
 
     <section id="pricing" class="pricing wrap">
-      <div class="section-head reveal">
+      <div class="section-head">
         <p class="eyebrow">Pricing</p>
         <h2>Priced per studio, not per potter.</h2>
         <div class="billing" role="group" aria-label="Billing period">
@@ -154,13 +152,13 @@ const faqs = [
         </div>
       </div>
       <div class="plans">
-        <article class="plan reveal">
+        <article class="plan">
           <h3>Solo</h3>
           <p class="price"><b>$0</b><span>forever</span></p>
           <ul><li>One kiln</li><li>Unlimited firings and glazes</li><li>CSV export</li></ul>
           <a class="btn btn-ghost" href="#waitlist">Join the waitlist</a>
         </article>
-        <article class="plan featured reveal">
+        <article class="plan featured">
           <p class="tag">Most studios</p>
           <h3>Studio</h3>
           <p class="price"><b data-month="$14" data-year="$140">$14</b><span data-month="per month" data-year="per year">per month</span></p>
@@ -171,7 +169,7 @@ const faqs = [
     </section>
 
     <section id="faq" class="faq wrap">
-      <div class="section-head reveal">
+      <div class="section-head">
         <p class="eyebrow">Questions</p>
         <h2>Things potters ask first.</h2>
       </div>
@@ -220,7 +218,7 @@ const faqs = [
   </main>
 
   <footer class="foot wrap">
-    <span>Conebook is a fictional product. Website demo by Ha Le, 2026.</span>
+    <span>Fictional business, invented data. Kiln photo by Encik Tekateki on Wikimedia Commons, CC0. Website demo by Ha Le, 2026.</span>
     <a class="link" href="#top" onclick="window.scrollTo({top:0});return false;">Back to top</a>
   </footer>
 
@@ -281,7 +279,6 @@ const faqs = [
 </Base>
 
 <style>
-  .demo-bar { background: var(--night); color: var(--night-muted); font-size: 13px; text-align: center; padding: 8px 16px; }
   .nav { display: flex; align-items: center; gap: 32px; padding: 22px 0; }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--serif); font-weight: 600; font-size: 22px; letter-spacing: -0.02em; }
   .nav nav { display: flex; gap: 28px; margin-left: auto; font-size: 16px; color: var(--ink-2); }
@@ -289,21 +286,21 @@ const faqs = [
 
   .hero { display: grid; grid-template-columns: 1.02fr 1fr; gap: 64px; align-items: center; padding: 56px 0 72px; }
   .hero h1 { font-size: clamp(48px, 6.4vw, 88px); }
-  .hero h1 em { font-style: italic; font-variation-settings: "SOFT" 100, "WONK" 1; color: var(--clay); }
   .lede { font-size: 20px; color: var(--ink-2); max-width: 34ch; margin-top: 24px; }
   .quick { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; max-width: 520px; }
   .quick input { flex: 1 1 230px; font: 16px var(--sans); padding: 15px 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); }
-  .quick input:focus { border-color: var(--clay); outline: none; }
+  .quick input:focus { border-color: var(--ink); outline: none; }
   .fine { font-size: 14px; color: var(--muted); margin-top: 12px; }
   .form-msg { flex-basis: 100%; font-size: 15px; min-height: 1px; margin: 0; }
   .form-msg.ok { color: #2F6B45; }
   .form-msg.err { color: #A33B21; }
   [aria-invalid="true"] { border-color: #A33B21 !important; }
-  .hero-art { position: relative; transform: rotate(1.2deg); }
-  .tile-float { position: absolute; left: -44px; bottom: -64px; display: flex; gap: 12px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow-md); transform: rotate(-3deg); }
-  .tile-float i { width: 38px; height: 38px; border-radius: 8px; }
-  .tile-float b { display: block; font-size: 15px; }
-  .tile-float span { font-size: 13px; color: var(--muted); }
+  .hero-art { position: relative; display: grid; }
+  .kiln { grid-area: 1 / 1; justify-self: end; align-self: start; width: 58%; margin: -24px -28px 0 0; }
+  .kiln img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 18% 40%; border-radius: 4px; }
+  .kiln { display: flex; flex-direction: column-reverse; }
+  .kiln figcaption { font-size: 13px; color: var(--muted); margin-bottom: 8px; text-align: right; }
+  .card-slot { grid-area: 1 / 1; align-self: start; width: 90%; margin-top: 230px; position: relative; }
 
   .built { display: flex; align-items: center; gap: 24px; border-block: 1px solid var(--line); padding: 20px 0; color: var(--muted); font-size: 15px; }
   .built ul { display: flex; flex-wrap: wrap; gap: 10px 28px; list-style: none; margin: 0; padding: 0; color: var(--ink-2); font-family: var(--serif); font-size: 19px; }
@@ -314,8 +311,7 @@ const faqs = [
 
   .features { padding: 112px 0 48px; }
   .bento { display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: auto auto; gap: 20px; }
-  .cell { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 32px; transition: transform .2s var(--ease), box-shadow .2s var(--ease); }
-  .cell:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .cell { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 32px; }
   .cell h3 { font-size: 28px; }
   .cell > p { color: var(--muted); margin-top: 10px; max-width: 42ch; }
   .firings { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 10px; }
@@ -334,14 +330,14 @@ const faqs = [
   .day { display: flex; flex-direction: column; gap: 6px; }
   .day span { font-size: 13px; color: var(--night-muted); margin-bottom: 2px; }
   .day em { font-style: normal; font-size: 12.5px; line-height: 1.3; padding: 8px; border-radius: 8px; background: var(--night-2); border: 1px solid var(--night-line); }
-  .day em.fire { background: #4A2618; border-color: #6A3520; color: #F6C9AF; }
+  .day em.fire { background: #4A2A1E; border-color: #6B3B28; color: #F1D2C4; }
   .day em.open { color: var(--night-muted); }
   .cell.small { display: flex; flex-direction: column; justify-content: flex-end; gap: 4px; }
   .cell.small svg { margin-bottom: auto; color: var(--ink); }
 
   .steps { padding: 96px 0 48px; }
   .steps ol { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; counter-reset: s; }
-  .steps li span { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--clay); font-variation-settings: "SOFT" 100; }
+  .steps li span { font-family: var(--serif); font-size: 64px; line-height: 1; color: var(--ink); font-variation-settings: "SOFT" 100; }
   .steps li h3 { font-size: 26px; margin-top: 16px; }
   .steps li p { color: var(--muted); margin-top: 8px; }
 
@@ -349,7 +345,7 @@ const faqs = [
   .billing { display: inline-flex; gap: 4px; margin-top: 24px; background: var(--paper-2); padding: 4px; border-radius: 999px; }
   .billing button { border: 0; background: transparent; font: 600 15px var(--sans); color: var(--ink-2); padding: 10px 18px; border-radius: 999px; cursor: pointer; }
   .billing button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow-sm); }
-  .billing small { color: var(--clay-text); font-weight: 600; margin-left: 4px; }
+  .billing small { color: var(--muted); font-weight: 600; margin-left: 4px; }
   .plans { display: grid; grid-template-columns: 0.85fr 1fr; gap: 20px; max-width: 900px; }
   .plan { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 32px; display: flex; flex-direction: column; }
   .plan h3 { font-size: 28px; }
@@ -358,11 +354,11 @@ const faqs = [
   .price span { color: var(--muted); }
   .plan ul { margin: 0 0 28px; padding: 0; list-style: none; display: grid; gap: 10px; }
   .plan li { padding-left: 26px; position: relative; }
-  .plan li::before { content: ""; position: absolute; left: 0; top: 10px; width: 14px; height: 8px; border-left: 2.5px solid var(--clay); border-bottom: 2.5px solid var(--clay); transform: rotate(-45deg); }
+  .plan li::before { content: ""; position: absolute; left: 0; top: 10px; width: 14px; height: 8px; border-left: 2.5px solid currentColor; border-bottom: 2.5px solid currentColor; transform: rotate(-45deg); }
   .plan .btn { margin-top: auto; align-self: flex-start; }
   .plan.featured { background: var(--night); color: var(--night-ink); border-color: var(--night); transform: translateY(-12px); box-shadow: var(--shadow-md); }
   .plan.featured .price span { color: var(--night-muted); }
-  .tag { position: absolute; top: -13px; right: 24px; background: var(--clay); color: var(--clay-ink); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; }
+  .tag { position: absolute; top: -13px; right: 24px; background: var(--card); color: var(--ink); font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 999px; }
 
   .faq { padding: 96px 0 96px; display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: start; }
   .qa { display: grid; }
@@ -370,12 +366,12 @@ const faqs = [
   details:first-child { border-top: 1px solid var(--line); }
   summary { cursor: pointer; list-style: none; font-family: var(--serif); font-size: 22px; font-weight: 600; display: flex; justify-content: space-between; gap: 16px; }
   summary::-webkit-details-marker { display: none; }
-  summary::after { content: "+"; font-family: var(--sans); color: var(--clay); font-weight: 500; transition: transform .2s var(--ease); }
+  summary::after { content: "+"; font-family: var(--sans); color: var(--ink); font-weight: 500; transition: transform .2s var(--ease); }
   details[open] summary::after { transform: rotate(45deg); }
   details p { color: var(--ink-2); margin-top: 10px; max-width: 60ch; }
 
   .cta { background: var(--night); color: var(--night-ink); padding: 112px 0; }
-  .cta .eyebrow { color: #E9956C; }
+  .cta .eyebrow { color: var(--night-muted); }
   .cta-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 64px; align-items: start; }
   .cta h2 { font-size: clamp(40px, 5vw, 64px); margin-top: 12px; }
   .cta-lede { color: var(--night-muted); margin-top: 20px; max-width: 36ch; }
@@ -384,7 +380,7 @@ const faqs = [
   .full label { display: grid; gap: 8px; font-size: 15px; font-weight: 500; color: var(--night-ink); }
   .full label span { color: var(--night-muted); font-weight: 400; }
   .full input, .full select, .full textarea { font: 16px var(--sans); color: var(--night-ink); background: var(--night); border: 1.5px solid var(--night-line); border-radius: 10px; padding: 13px 14px; }
-  .full input:focus, .full select:focus, .full textarea:focus { border-color: var(--clay); outline: none; }
+  .full input:focus, .full select:focus, .full textarea:focus { border-color: var(--night-ink); outline: none; }
   .full .btn { justify-self: start; }
   .cta .form-msg.ok { color: #9FD3AE; }
   .cta .form-msg.err { color: #F2A48A; }
@@ -393,8 +389,9 @@ const faqs = [
 
   @media (max-width: 960px) {
     .hero { grid-template-columns: 1fr; gap: 56px; padding-top: 32px; }
-    .hero-art { transform: none; }
-    .tile-float { left: 12px; }
+    .kiln { width: 100%; margin: 0; }
+    .kiln img { aspect-ratio: 16 / 10; object-position: 30% 66%; }
+    .card-slot { grid-area: auto; width: 100%; margin-top: -56px; padding: 0 12px; }
     .bento, .cta-inner, .faq { grid-template-columns: 1fr; }
     .plans { grid-template-columns: 1fr; }
     .plan.featured { transform: none; }

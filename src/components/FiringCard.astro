@@ -64,9 +64,8 @@ const xTicks = [0, 2, 4, 6, 8, 10];
   header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
   .label { font-size: 13px; color: var(--muted); letter-spacing: .02em; }
   .title { font-family: var(--serif); font-size: 21px; font-weight: 600; letter-spacing: -0.01em; margin-top: 2px; }
-  .live { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--clay-text); background: #F6E2D6; padding: 6px 12px; border-radius: 999px; }
-  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--clay); animation: pulse 1.8s var(--ease) infinite; }
-  @keyframes pulse { 50% { opacity: .35; } }
+  .live { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
+  .live i { width: 8px; height: 8px; border-radius: 50%; background: var(--clay); }
   .readout { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 18px 0 10px; }
   .readout div { background: var(--paper); border-radius: 10px; padding: 10px 12px; }
   .readout span { display: block; font-size: 12px; color: var(--muted); }
@@ -76,7 +75,7 @@ const xTicks = [0, 2, 4, 6, 8, 10];
   .tick { font: 500 11px var(--sans); fill: var(--muted); }
   .target { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: .7; }
   .actual { fill: none; stroke: var(--clay); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
-            stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.8s var(--ease) .25s forwards; }
+            stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .9s cubic-bezier(.3,.7,.2,1) .15s forwards; }
   @keyframes draw { to { stroke-dashoffset: 0; } }
   .now { stroke: var(--clay); stroke-width: 1; stroke-dasharray: 2 4; opacity: .6; }
   .dot { fill: var(--clay); stroke: var(--card); stroke-width: 3; }
